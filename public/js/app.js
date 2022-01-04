@@ -1941,6 +1941,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -37651,17 +37679,53 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
+      _c("div", { staticClass: "row mt-5" }, [
+        _c("div", { staticClass: "col-md-12" }, [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [
-              _vm._v("Apartment Component")
+              _c("h3", { staticClass: "card-title" }, [_vm._v("Apartments")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-tools" })
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an apartment component.\n                "
-              )
+            _c("div", { staticClass: "card-body table-responsive p-0" }, [
+              _c("table", { staticClass: "table table-hover text-nowrap" }, [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("ID")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("User")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Date")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Status")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Reason")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("183")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("John Doe")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("11-7-2014")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { staticClass: "tag tag-success" }, [
+                        _vm._v("Approved")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "Bacon ipsum dolor sit amet salami venison chicken flank fatback doner."
+                      )
+                    ])
+                  ])
+                ])
+              ])
             ])
           ])
         ])
@@ -53351,8 +53415,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/gerry/Documents/Projects/GraciousApartments/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/gerry/Documents/Projects/GraciousApartments/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\PROJECTS\WaterBillMgtSystem\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\PROJECTS\WaterBillMgtSystem\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
