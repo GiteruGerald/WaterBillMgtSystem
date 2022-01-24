@@ -107,7 +107,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/bill" class="nav-link">
+              <router-link to="/bills" class="nav-link">
                 <i class="nav-icon fas fa-file-invoice pink"></i>
                 <p>
                   Water Bills

@@ -16,7 +16,7 @@ Vue.use(VueRouter)
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/apartments', component: require('./components/Apartment.vue').default },
-    // { path: '/bill', component: require('./components/Bill.vue') }
+    { path: '/bills', component: require('./components/Bill.vue').default }
   ]
 
 

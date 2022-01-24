@@ -7,7 +7,9 @@
                 <h3 class="card-title">Apartments</h3>
 
                 <div class="card-tools">
-                  
+                  <button class="btn btn-small btn-success" data-toggle="modal" data-target="#addNewModal">
+                    Add New 
+                    <i class="fas fa-plus-square"></i></button>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -16,19 +18,26 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>User</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Reason</th>
+                      <th>House Units</th>
+                      <th>Location</th>
+                      <th>Date Added</th>
+                      <th>Modify</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>183</td>
-                      <td>John Doe</td>
-                      <td>11-7-2014</td>
-                      <td><span class="tag tag-success">Approved</span></td>
-                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                      <td>16</td>
+                      <td>Mugutha</td>
+                      <td>-</td>
+                      <td>
+                        <a href="#">
+                            <i class="fas fa-edit orange"></i>
+                        </a>/
+                        <a href="#">
+                            <i class="fas fa-trash red"></i>
+                        </a>
+                        </td>
                     </tr>
                     
                   </tbody>
@@ -39,7 +48,29 @@
             <!-- /.card -->
           </div>
         </div>
+        <!-- Add Modal -->
+
+        <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="addNewModalLabel">Add Apartments</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
     </div>
+
 </template>
 
 <script>
