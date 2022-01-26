@@ -18,23 +18,25 @@
                   <thead>
                     <tr>
                       <th>ID</th>
+                      <th>Apartment Name</th>
                       <th>House Units</th>
                       <th>Location</th>
-                      <th>Date Added</th>
+                      <th>Registered At</th>
                       <th>Modify</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>183</td>
-                      <td>16</td>
-                      <td>Mugutha</td>
-                      <td>-</td>
+                    <tr v-for="apt in apartments" :key="apt.id">
+                      <td>{{apt.id}}</td>
+                      <td>{{apt.name}}</td>
+                      <td>{{apt.units}}</td>
+                      <td>{{apt.location | upText }}</td>
+                      <td>{{apt.created_at | myDate}}</td>
                       <td>
                         <a href="#">
-                            <i class="fas fa-edit orange"></i>
+                            <i class="fas fa-edit blue"></i>
                         </a>/
-                        <a href="#">
+                        <a href="#" @click="deleteApt(apt.id)">
                             <i class="fas fa-trash red"></i>
                         </a>
                         </td>
@@ -68,15 +70,23 @@
                                 
                                   <input v-model="form.name" type="text" name="apartment"
                                     placeholder="Enter Apartment name"
-                                    class="form-control" :class="{ 'is-invalid': form.errors.has('apartment') }">
-                                  <has-error :form="form" field="apartment"></has-error>
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                                  <div v-if="form.errors.has('name')" v-html="form.errors.get('name')" />
                             </div>
                             <div class="form-group">
                                   <label class="col-sm-5 col-form-label">Number of HSE Units</label>
                                   <input v-model="form.units" type="number" name="units"
                                     placeholder="Enter no. of house units"
                                     class="form-control" :class="{ 'is-invalid': form.errors.has('units') }">
-                                  <has-error :form="form" field="units"></has-error>
+                                  <div v-if="form.errors.has('units')" v-html="form.errors.get('units')" />
+                            </div>
+                             <div class="form-group">
+                                  <label class="col-sm-5 col-form-label">Location of Apartment</label>
+                                
+                                  <input v-model="form.location" type="text" name="location"
+                                    placeholder="Enter Location name"
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('location') }">
+                                  <div v-if="form.errors.has('location')" v-html="form.errors.get('location')" />
                             </div>
                         
                       
@@ -100,21 +110,94 @@
     export default {
         data(){
           return{
+            apartments : {},
             form: new Form({
               name: '',
-              units: ''             
+              units: '',
+              location: ''           
 
             })
           }
         },
         methods:{
           createApartment(){
-              this.form.post('/api/apartment');
+              this.$Progress.start()
+              this.form.post('/api/apartment')
+                .then(()=>{
+                  Fire.$emit('ReloadApts')
+                  $('#addNewModal').modal('hide')
+
+                   Toast.fire({
+                         icon: 'success',
+                         title: 'Apartment added successfully'
+                       });
+
+                  this.$Progress.finish()    
+                })
+                .catch(()=>{
+                  this.$Progress.fail()    
+                      
+
+                })
+              
       
+          },
+          loadUsers(){
+              axios.get('api/apartment')
+                .then(({data}) => (this.apartments = data.data));
+          },
+          deleteApt(id){
+            Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                  if(result.value){
+
+                        this.$Progress.start()
+                          
+                        this.form.delete('api/apartment/'+id)
+                              .then((result)=>{
+                                
+                                  if (result.isConfirmed) {
+                                    Swal.fire(
+                                      'Deleted!',
+                                      'Record has been deleted.',
+                                      'success'
+                                    )
+                                  }
+                                  Fire.$emit('ReloadApts')
+                                  this.$Progress.finish()
+                                      Toast.fire({
+                                        icon: 'warning',
+                                        title: 'Record deleted successfully'
+                                      });
+      
+                              })
+                            .catch(()=>{
+                                Swal.fire(
+                                'Ooops!',
+                                'Something went wrong, Try again.',
+                                'error'
+                                )
+                              })    
+                           }
+                    })
           }
         },
-        mounted() {
-        console.log('Component mounted.')
+        created() {
+            this.loadUsers()
+            Fire.$on("ReloadApts", ()=>{
+              this.loadUsers()
+            })
+            // setInterval(()=>this.loadUsers(),3000)
+
         }
-    }
+      }
+
+    
 </script>

@@ -17,6 +17,8 @@ class CreateApartmentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 50);
             $table->integer('units');
+            $table->string('location');
+
             $table->timestamps();
 
             

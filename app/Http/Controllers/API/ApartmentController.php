@@ -15,7 +15,7 @@ class ApartmentController extends Controller
      */
     public function index()
     {
-        //
+        return Apartment::latest()->paginate(10);
     }
 
     /**
@@ -26,13 +26,16 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        return Apartment::create([
-            $request->all()
+        $this->validate($request, [
+            'name' => 'required| string | max:50 | unique:apartments',
+            'units' => 'required| integer',
+            'location' => 'required | string'
         ]);
+        return Apartment::create($request->all() );
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource.` 
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -62,6 +65,9 @@ class ApartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $apt = Apartment::findOrFail($id);
+        
+        $apt->delete();
+        return ['message' => "Apt deleted"];
     }
 }

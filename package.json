@@ -25,8 +25,12 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.3",
+        "@sweetalert2/themes": "^5.0.8",
         "admin-lte": "^3.1.0",
+        "moment": "^2.29.1",
+        "sweetalert2": "^11.3.8",
         "vform": "^2.1.2",
+        "vue-progressbar": "^0.7.5",
         "vue-router": "^3.5.2"
     }
 }
