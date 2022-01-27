@@ -7,7 +7,7 @@
                 <h3 class="card-title">Apartments</h3>
 
                 <div class="card-tools">
-                  <button class="btn btn-small btn-success" data-toggle="modal" data-target="#addNewModal">
+                  <button class="btn btn-small btn-success" @click="newModal">
                     Add New 
                     <i class="fas fa-plus-square"></i></button>
                 </div>
@@ -33,7 +33,7 @@
                       <td>{{apt.location | upText }}</td>
                       <td>{{apt.created_at | myDate}}</td>
                       <td>
-                        <a href="#">
+                        <a href="#" @click="editModal(apt)">
                             <i class="fas fa-edit blue"></i>
                         </a>/
                         <a href="#" @click="deleteApt(apt.id)">
@@ -56,13 +56,14 @@
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="addNewModalLabel">Add Apartment</h5>
+                    <h5 class="modal-title" v-show="!editmode" id="addNewModalLabel">Add Apartment</h5>
+                    <h5 class="modal-title" v-show="editmode" id="addNewModalLabel">Edit Apartment Details</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
 
-                  <form @submit.prevent="createApartment">  
+                  <form @submit.prevent="editmode ? updateApartment() : createApartment() ">  
                     <div class="modal-body">
                       <div class="modal-body">
                             <div class="form-group">
@@ -96,7 +97,8 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary">Create</button>
+                      <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
+                      <button v-show="!editmode" type="submit" class="btn btn-primary">Create</button>
                     </div>
                   </form>
                 </div>
@@ -109,17 +111,32 @@
 <script>
     export default {
         data(){
+          
           return{
             apartments : {},
             form: new Form({
+              id: '',
               name: '',
               units: '',
               location: ''           
 
-            })
+            }),
+            editmode: false
           }
         },
         methods:{
+          newModal(){
+              this.editmode = false
+              this.form.reset()
+              $('#addNewModal').modal('show')
+          },
+          editModal(apartment){
+              this.editmode = true
+              this.form.reset()
+              $('#addNewModal').modal('show')
+              this.form.fill(apartment)
+
+          },
           createApartment(){
               this.$Progress.start()
               this.form.post('/api/apartment')
@@ -142,9 +159,24 @@
               
       
           },
-          loadUsers(){
-              axios.get('api/apartment')
-                .then(({data}) => (this.apartments = data.data));
+          updateApartment(){
+              this.$Progress.start()
+              this.form.put('api/apartment/'+this.form.id)
+                .then(()=>{
+                       Fire.$emit('ReloadApts')
+                       $('#addNewModal').modal('hide')
+    
+                       Toast.fire({
+                          icon: 'success',
+                          title: 'Apt Details edited successfully'
+                        });
+
+                  this.$Progress.finish() 
+                })
+                .catch(()=>{
+                  this.$Progress.fail()    
+                  
+                })
           },
           deleteApt(id){
             Swal.fire({
@@ -187,7 +219,11 @@
                               })    
                            }
                     })
-          }
+          },
+           loadUsers(){
+              axios.get('api/apartment')
+                .then(({data}) => (this.apartments = data.data));
+          },
         },
         created() {
             this.loadUsers()

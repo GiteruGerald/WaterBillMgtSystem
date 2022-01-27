@@ -2033,18 +2033,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       apartments: {},
       form: new Form({
+        id: '',
         name: '',
         units: '',
         location: ''
-      })
+      }),
+      editmode: false
     };
   },
   methods: {
+    newModal: function newModal() {
+      this.editmode = false;
+      this.form.reset();
+      $('#addNewModal').modal('show');
+    },
+    editModal: function editModal(apartment) {
+      this.editmode = true;
+      this.form.reset();
+      $('#addNewModal').modal('show');
+      this.form.fill(apartment);
+    },
     createApartment: function createApartment() {
       var _this = this;
 
@@ -2062,12 +2077,21 @@ __webpack_require__.r(__webpack_exports__);
         _this.$Progress.fail();
       });
     },
-    loadUsers: function loadUsers() {
+    updateApartment: function updateApartment() {
       var _this2 = this;
 
-      axios.get('api/apartment').then(function (_ref) {
-        var data = _ref.data;
-        return _this2.apartments = data.data;
+      this.$Progress.start();
+      this.form.put('api/apartment/' + this.form.id).then(function () {
+        Fire.$emit('ReloadApts');
+        $('#addNewModal').modal('hide');
+        Toast.fire({
+          icon: 'success',
+          title: 'Apt Details edited successfully'
+        });
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        _this2.$Progress.fail();
       });
     },
     deleteApt: function deleteApt(id) {
@@ -2103,14 +2127,22 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       });
+    },
+    loadUsers: function loadUsers() {
+      var _this4 = this;
+
+      axios.get('api/apartment').then(function (_ref) {
+        var data = _ref.data;
+        return _this4.apartments = data.data;
+      });
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadUsers();
     Fire.$on("ReloadApts", function () {
-      _this4.loadUsers();
+      _this5.loadUsers();
     }); // setInterval(()=>this.loadUsers(),3000)
   }
 });
@@ -64465,11 +64497,27 @@ var render = function() {
     _c("div", { staticClass: "row mt-5" }, [
       _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "card" }, [
-          _vm._m(0),
+          _c("div", { staticClass: "card-header" }, [
+            _c("h3", { staticClass: "card-title" }, [_vm._v("Apartments")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-tools" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-small btn-success",
+                  on: { click: _vm.newModal }
+                },
+                [
+                  _vm._v("\n                Add New \n                "),
+                  _c("i", { staticClass: "fas fa-plus-square" })
+                ]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body table-responsive p-0" }, [
             _c("table", { staticClass: "table table-hover text-nowrap" }, [
-              _vm._m(1),
+              _vm._m(0),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -64488,7 +64536,18 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._m(2, true),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              return _vm.editModal(apt)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-edit blue" })]
+                      ),
                       _vm._v("/\n                    "),
                       _c(
                         "a",
@@ -64534,7 +64593,43 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(3),
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.editmode,
+                        expression: "!editmode"
+                      }
+                    ],
+                    staticClass: "modal-title",
+                    attrs: { id: "addNewModalLabel" }
+                  },
+                  [_vm._v("Add Apartment")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "h5",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.editmode,
+                        expression: "editmode"
+                      }
+                    ],
+                    staticClass: "modal-title",
+                    attrs: { id: "addNewModalLabel" }
+                  },
+                  [_vm._v("Edit Apartment Details")]
+                ),
+                _vm._v(" "),
+                _vm._m(1)
+              ]),
               _vm._v(" "),
               _c(
                 "form",
@@ -64542,7 +64637,9 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.createApartment.apply(null, arguments)
+                      _vm.editmode
+                        ? _vm.updateApartment()
+                        : _vm.createApartment()
                     }
                   }
                 },
@@ -64688,7 +64785,50 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(4)
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button", "data-dismiss": "modal" }
+                      },
+                      [_vm._v("Close")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.editmode,
+                            expression: "editmode"
+                          }
+                        ],
+                        staticClass: "btn btn-success",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Update")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.editmode,
+                            expression: "!editmode"
+                          }
+                        ],
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Create")]
+                    )
+                  ])
                 ]
               )
             ])
@@ -64699,28 +64839,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Apartments")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-tools" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-small btn-success",
-            attrs: { "data-toggle": "modal", "data-target": "#addNewModal" }
-          },
-          [
-            _vm._v("\n                Add New \n                "),
-            _c("i", { staticClass: "fas fa-plus-square" })
-          ]
-        )
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -64745,55 +64863,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#" } }, [
-      _c("i", { staticClass: "fas fa-edit blue" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "addNewModalLabel" } },
-        [_vm._v("Add Apartment")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Create")]
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true

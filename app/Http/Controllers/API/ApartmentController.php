@@ -54,7 +54,14 @@ class ApartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $apt = Apartment::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required| string | max:50 | sometimes',
+            'units' => 'required| integer',
+            'location' => 'required | string'
+        ]);
+        $apt->update($request->all());
     }
 
     /**
