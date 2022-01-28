@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResources(['apartment' => 'API\ApartmentController']);
+Route::get('profile', 'API\ProfileController@profile');
 
