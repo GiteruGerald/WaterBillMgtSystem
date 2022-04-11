@@ -220,15 +220,15 @@
                            }
                     })
           },
-           loadUsers(){
+           loadApts(){ 
               axios.get('api/apartment')
                 .then(({data}) => (this.apartments = data.data));
           },
         },
         created() {
-            this.loadUsers()
+            this.loadApts()
             Fire.$on("ReloadApts", ()=>{
-              this.loadUsers()
+              this.loadApts()
             })
             // setInterval(()=>this.loadUsers(),3000)
 

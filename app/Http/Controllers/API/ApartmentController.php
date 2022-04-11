@@ -6,6 +6,7 @@ use App\Apartment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+
 class ApartmentController extends Controller
 {
     /**
@@ -75,6 +76,6 @@ class ApartmentController extends Controller
         $apt = Apartment::findOrFail($id);
         
         $apt->delete();
-        return ['message' => "Apt deleted"];
+        return ['message' =>"Apt Deleted"];
     }
 }

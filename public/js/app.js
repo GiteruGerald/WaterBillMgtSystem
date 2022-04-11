@@ -2128,7 +2128,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    loadUsers: function loadUsers() {
+    loadApts: function loadApts() {
       var _this4 = this;
 
       axios.get('api/apartment').then(function (_ref) {
@@ -2140,9 +2140,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this5 = this;
 
-    this.loadUsers();
+    this.loadApts();
     Fire.$on("ReloadApts", function () {
-      _this5.loadUsers();
+      _this5.loadApts();
     }); // setInterval(()=>this.loadUsers(),3000)
   }
 });
