@@ -19,17 +19,15 @@
                     <tr>
                       <th>ID</th>
                       <th>Apartment Name</th>
-                      <th>House Units</th>
                       <th>Location</th>
                       <th>Registered At</th>
                       <th>Modify</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="apt in apartments" :key="apt.id">
-                      <td>{{apt.id}}</td>
+                    <tr v-for="(apt, index) in apartments" :key="apt.id">
+                      <td>{{index + 1 }}</td>
                       <td>{{apt.name}}</td>
-                      <td>{{apt.units}}</td>
                       <td>{{apt.location | upText }}</td>
                       <td>{{apt.created_at | myDate}}</td>
                       <td>

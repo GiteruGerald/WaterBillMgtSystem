@@ -2033,8 +2033,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -64789,13 +64787,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.apartments, function(apt) {
+                _vm._l(_vm.apartments, function(apt, index) {
                   return _c("tr", { key: apt.id }, [
-                    _c("td", [_vm._v(_vm._s(apt.id))]),
+                    _c("td", [_vm._v(_vm._s(index + 1))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(apt.name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(apt.units))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(_vm._f("upText")(apt.location)))]),
                     _vm._v(" "),
@@ -65116,8 +65112,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("ID")]),
         _vm._v(" "),
         _c("th", [_vm._v("Apartment Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("House Units")]),
         _vm._v(" "),
         _c("th", [_vm._v("Location")]),
         _vm._v(" "),
@@ -81615,8 +81609,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\wamp64\www\WaterBillMgtSystem\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\wamp64\www\WaterBillMgtSystem\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\gerry\PhpstormProjects\WaterBillMgtSystem\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\gerry\PhpstormProjects\WaterBillMgtSystem\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
